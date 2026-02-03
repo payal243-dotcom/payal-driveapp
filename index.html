@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DriveThru App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style..css">
+</head>
+<body>
+<div class="web-wrapper">
+<div class="app-container">
+    
+
+    <!-- SPLASH -->
+    <div id="splash" class="screen active">
+      <div class="splash-content">
+        <img src="images/car logo.png" alt="Description">
+        <h1>DriveThru</h1>
+        <p>Learn to Drive, The Smart Way</p>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="login" class="screen">
+      <div class="login-header">
+        <div>
+        <h2>Login Now!</h2>
+        <p>Please login to continue</p>
+        </div>
+        <img src="images/girl.image.png" alt="Description" class="right-img">
+
+      </div>
+
+      <div class="login-form">
+        <input type="email" id="email" placeholder="Email">
+        <small id="emailError" class="error-text">Email is required</small>
+        <input type="password" id="password" placeholder="Password">
+        <small id="passwordError" class="error-text">Password is required</small>
+
+        <button id="loginBtn">Login</button>
+
+        <div class="links">
+          <span id="signupLink">Sign Up?</span>
+          <span id="forgotLink">Forgot Password?</span>
+        </div>
+      </div>
+
+      <div id="loading" class="loading">
+        <div class="loader"></div>
+        <p>Logging in...</p>
+      </div>
+    </div>
+    <!-- FORGOT PASSWORD SCREEN -->
+<div id="forgot" class="screen">
+
+  <div class="postal-header">
+    <h2>Oops!</h2>
+    <p>Please read the instructions.</p>
+  </div>
+
+  <div class="forgot-wrap">
+
+    <div class="icon-circle">
+      <i class="fa-solid fa-fingerprint"></i>
+    </div>
+
+    <h3>Forgot password?</h3>
+    <p class="subtext">No worries, we'll send you reset instructions.</p>
+
+    <div class="input-box">
+      <i class="fa-regular fa-user"></i>
+      <input type="email" id="forgotEmail" placeholder="user@example.com">
+    </div>
+
+    <small class="error" id="forgotError">Invalid email address</small>
+    <br>
+
+    <button class="primary-btn" id="resetBtn">Reset password</button>
+    <br>
+
+    <p class="back-login" id="forgotBack">← Back to log in</p>
+
+  </div>
+</div>
+
+
+    <!-- SIGNUP ROLE -->
+    <div id="signup" class="screen">
+      <div class="signup-header">
+        <div>
+          <h2>Join us!</h2>
+          <p>Unlock possibilities today</p>
+        </div>
+        <img src="images/car.png" class="car-img">
+      </div>
+
+      <div class="signup-body">
+        <h3>Select role</h3>
+        <p>Please select your role</p>
+      <div class="role-card" data-role="pupil" onclick="selectRole(this)">
+    <i class="fa-regular fa-lightbulb"></i> 
+    Join as Pupil 
+</div>
+
+<div class="role-card" data-role="instructor" onclick="selectRole(this)">
+    <i class="fa-regular fa-user"></i> 
+    Join as Instructor
+</div>
+<br>
+
+        <button id="roleNext" class="next-btn">Next</button>
+        <p id="backLogin" class="back-login">← Back to login</p>
+      </div>
+    </div>
+
+<!-- POSTAL -->
+    <div id="postal" class="screen">
+      <div class="postal-header">
+        <h2>Signup Now!</h2>
+        <p>Please signup to continue</p>
+      </div>
+
+      <div class="steps">
+        <span class="active">✓</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+      </div>
+
+      <div class="postal-form">
+        <label>Postal Code</label>
+        <br>
+        <input type="text" id="postalInput" placeholder="Enter postal code">
+        <br>
+        <small id="postalError">Postal Code is required</small>
+      </div>
+
+      <button id="postalNext" class="next-btn">Next</button>
+    </div>
+
+<!-- LESSON TYPE -->
+<div id="lesson" class="screen">
+  <div class="postal-header">
+    <h2>Signup Now!</h2>
+    <p>Please signup to continue</p>
+  </div>
+
+  <div class="steps">
+    <span class="active">✓</span>
+    <span class="active">✓</span>
+    <span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+  </div>
+
+  <div class="lesson-body">
+    <h3>What type of lesson do you want?</h3>
+
+    <div class="lesson-card" onclick="selectLesson(this)">
+      I want to learn drive
+    </div>
+
+    <div class="lesson-card" onclick="selectLesson(this)">
+      I want refresher learner
+    </div>
+
+    <div class="lesson-card" onclick="selectLesson(this)">
+      I have a test booked within 14 days
+    </div>
+
+    <p id="lessonError" class="error-text show">
+      Please select a lesson type.
+    </p>
+
+    <div class="lesson-actions">
+      <button class="back-btn" id="lessonBack">Back</button>
+      <button class="next-btn" id="lessonNext">Next</button>
+    </div>
+  </div>
+</div>
+
+
+     <div id="instructorDate" class="screen">
+     <div class="postal-header"> 
+      <h2>Signup Now!</h2>
+      <p>Please signup to continue</p> 
+    </div> 
+    <div class="steps">
+      <span class="active">✓</span>
+      <span class="active">✓</span> 
+      <span class="active">✓</span> 
+      <span>4</span><span>5</span><span>6</span><span>7</span> 
+    </div> 
+    <h3>All Instructors</h3> 
+
+ <div class="date-row"> 
+  
+   <div class="left-icon">
+    <i class="fa-solid fa-sliders"></i> 
+  </div> 
+
+ <div class="date-box">
+  <span id="selectedDate">02 Feb 2026</span> 
+</div>
+
+ <div class="calendar-icon" id="calendarBtn">
+  <i class="fa-solid fa-calendar-days"></i> 
+</div>
+</div> 
+<div class="calendar-overlay" id="calendarOverlay">
+<div class="calendar-box"> 
+  <div class="calendar-header">
+    <button id="prevMonth">Previous</button>
+    <span id="monthYear">February 2026</span> 
+    <button id="nextMonth">Next</button> 
+  </div> 
+  <div class="calendar-days"> 
+    <span>Su</span><span>Mo</span><span>Tu</span> <span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+  </div> 
+  <div class="calendar-dates" id="calendarDates">
+
+  </div> 
+</div>
+</div>
+<div class="no-result"> 
+  <div class="triangle">
+    <i class="fa-solid fa-exclamation"></i> 
+  </div> 
+  <p>Sorry, No result found!</p> 
+</div> 
+<div class="lesson-actions"> 
+  <button class="back-btn" id="dateBack">Back</button>
+  <button class="next-btn" id="dateNext">Next</button>
+</div>
+     </div>
+
+<!-- INSTRUCTOR SIGNUP SCREEN -->
+<div class="screen" id="instructorSignup">
+  <div class="signup-header instructor-header">
+
+    <h1>Signup Now!</h1>
+    <p>Please signup to continue</p>
+  </div>
+
+  <div class="form-group">
+    <label>Driving School Name</label>
+    <input type="text" placeholder="Enter Driving School Name">
+    <small class="error">Driving School Name is required</small>
+  </div>
+
+  <div class="form-group">
+    <label>Full Name</label>
+    <input type="text" placeholder="Enter Full Name">
+    <small class="error">First name is required</small>
+  </div>
+
+  <div class="form-group">
+    <label>Email Address</label>
+    <input type="email" placeholder="Enter Email Address">
+    <small class="error">Email is required</small>
+  </div>
+
+  <div class="form-group">
+    <label>Phone Number</label>
+    <input type="text" placeholder="Enter Phone Number">
+    <small class="error">Mobile number is required</small>
+  </div>
+
+  <div class="form-group password">
+    <label>Password</label>
+    <input type="password" placeholder="Enter Password">
+    <span class="eye">👁</span>
+    <small class="error">Password is required</small>
+  </div>
+
+  <div class="form-group password">
+    <label>Confirm Password</label>
+    <input type="password" placeholder="Enter Confirm Password">
+    <span class="eye">👁</span>
+    <small class="error">Confirm password is required</small>
+  </div>
+
+<button class="signup-btn disabled" disabled>
+    Sign Up
+  </button>
+
+</div>
+
+  <!-- CONGRATULATIONS SCREEN -->
+<div class="screen" id="congrats">
+
+  <div class="signup-header">
+    <h2>Signup Now!</h2>
+    <p>Please signup to continue</p>
+  </div>
+
+  <div class="congrats-body">
+    <img src="images/car.png" class="congrats-car">
+
+    <h1>Congratulations 🎉</h1>
+    <p>Your account has been created</p>
+    <button class="next-btn" id="congratsNext">continue</button> </div>
+<!-- CONFETTI --> 
+ <div class="confetti">
+</div>
+ </div>
+</div>
+</div>
+
+<script src="first.js"></script>
+</body>
+</html>
