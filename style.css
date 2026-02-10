@@ -94,13 +94,20 @@ body{
   padding: 40px 25px;
   background: linear-gradient(135deg, #ff758c, #ff7eb3);
   color: white;
-  height: 200px;
+  min-height: 200px;
+  height: auto;
+  text-align: left;
 }
+
 .right-img {
   height: 200px;
   width: 220px;
-  object-fit: cover; 
+  object-fit: cover;
+  position: absolute;
+  right: 0;        /* bilkul screen ke right */      /* agar neeche chipkani ho */
 }
+
+
 
 .login-form{padding:35px}
 .login-form input{
@@ -795,6 +802,32 @@ small{color:red;display:none}
   opacity: 0.8;
 }
 
+@media screen and (max-width: 360px) {
+
+  .login-header {
+    position: relative;
+    padding: 20px 16px 90px !important;
+    height: auto !important;
+  }
+
+  .login-header h2 {
+    font-size: 18px !important;
+    line-height: 1.2;
+    max-width: 65%;
+  }
+
+  .login-header p {
+    font-size: 12px !important;
+    max-width: 65%;
+  }
+
+  .right-img {
+    width: 243px !important;
+    position: absolute;
+    right: -10px;
+    bottom: 0;
+  }
+}
 
 
 
