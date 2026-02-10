@@ -28,7 +28,7 @@ body{
   background:white;
   position:relative;
   box-shadow:0 25px 50px rgba(0,0,0,.25);
-  overflow-y:auto;   /* 👈 KEY FIX */
+  overflow-y:auto;  
   overflow-x:hidden;
 }
 .screen{
@@ -715,9 +715,6 @@ small{color:red;display:none}
   text-align:center;
   margin-top:10px;
 }
-/* =====================
-   DASHBOARD CENTERED
-===================== */
 
 #dashboard {
   display: none;
@@ -732,8 +729,6 @@ small{color:red;display:none}
   justify-content: center;
   align-items: center;
 }
-
-/* Main box */
 .dashboard-container {
   width: 100%;
   max-width: 420px;
@@ -745,7 +740,6 @@ small{color:red;display:none}
   box-shadow: 0 20px 40px rgba(0,0,0,0.35);
 }
 
-/* Welcome text */
 .dashboard-container h1 {
   font-size: 28px;
   margin-bottom: 10px;
@@ -756,8 +750,6 @@ small{color:red;display:none}
   opacity: 0.85;
   margin-bottom: 25px;
 }
-
-/* Logout button (CENTER) */
 #logoutBtn {
   width: 100%;
   background: #ff1e38;
@@ -775,7 +767,6 @@ small{color:red;display:none}
   background: #ff1e38;
 }
 
-/* Cards */
 .dashboard-cards {
   display: grid;
   grid-template-columns: 1fr;

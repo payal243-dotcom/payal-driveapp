@@ -1,6 +1,3 @@
-/***********************
-  BASIC SCREENS
-************************/
 const splash = document.getElementById("splash");
 const login = document.getElementById("login");
 const signup = document.getElementById("signup");
@@ -11,16 +8,9 @@ const forgot = document.getElementById("forgot");
 const postal = document.getElementById("postal");
 const lesson = document.getElementById("lesson");
 
-
-/***********************
-  STATIC LOGIN
-************************/
 const STATIC_EMAIL = "test@gmail.com";
 const STATIC_PASSWORD = "123456";
 
-/**********************
-  BUTTONS
-************************/
 const loginBtn = document.getElementById("loginBtn");
 const signupLink = document.getElementById("signupLink");
 const backLogin = document.getElementById("backLogin");
@@ -31,25 +21,18 @@ const congratsNext = document.getElementById("congratsNext");
 const logoutBtn = document.getElementById("logoutBtn");
 
 let selectedRole = "";
-/***********************
-  SCREEN SWITCH
-************************/
 function showScreen(id) {
   document.querySelectorAll(".screen")
     .forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
-/***********************
-  SPLASH → LOGIN
-************************/
+
 setTimeout(() => {
   splash.classList.remove("active");
   login.classList.add("active");
 }, 2500);
 
-/***********************
-  LOGIN
-************************/
+
 loginBtn.addEventListener("click", () => {
 
   emailError.style.display = "none";
@@ -79,22 +62,11 @@ loginBtn.addEventListener("click", () => {
     passwordError.style.display = "block";
   }
 });
-
-/***********************
-  LOGOUT
-************************/
 logoutBtn.addEventListener("click", () => {
   email.value = "";
   password.value = "";
   showScreen("login");
 });
-
-
-
-
-/***********************
-  SIGNUP
-************************/
 signupLink.onclick = () => showScreen("signup");
 backLogin.onclick = () => showScreen("login");
 
@@ -107,29 +79,20 @@ function selectRole(card) {
 }
 
 roleNext.onclick = () => {
-
-  // ❌ agar role hi select nahi kiya
   if (selectedRole === "") {
     alert("Please select a role");
     return;
   }
-
-  // hide signup screen
   signup.classList.remove("active");
 
-  // ✅ PUPIL FLOW
   if (selectedRole === "pupil") {
-    showScreen("postal");   // ya jo tumhari first pupil screen hai
+    showScreen("postal");  
   }
 
-  // ✅ INSTRUCTOR FLOW
   if (selectedRole === "instructor") {
     showScreen("instructorSignup");
   }
 };
-/***********************
-  POSTAL CODE (PUPIL FLOW)
-************************/
 const postalNext = document.getElementById("postalNext");
 const postalInput = document.getElementById("postalInput");
 const postalError = document.getElementById("postalError");
@@ -142,39 +105,28 @@ postalNext.onclick = () => {
   }
 
   postalError.style.display = "none";
-
-  // ✅ go to lesson screen
   showScreen("lesson");
 };
-/***********************
-  LESSON SELECTION
-************************/
 const lessonCards = document.querySelectorAll(".lesson-card");
 const lessonNext = document.getElementById("lessonNext"); // your "Next" button on lesson screen
 let selectedLesson = "";
 
-// Initially disable Next button
 lessonNext.disabled = true;
 lessonNext.classList.remove("active");
 
 lessonCards.forEach(card => {
   card.onclick = () => {
-    // Remove active class from all cards
+    
     lessonCards.forEach(c => c.classList.remove("active"));
 
-    // Mark clicked card as active
     card.classList.add("active");
 
-    // Save selected lesson
+  
     selectedLesson = card.dataset.lesson;
-
-    // Enable Next button
     lessonNext.disabled = false;
     lessonNext.classList.add("active");
   };
 });
-
-// Show instructor date screen after lesson selection
 lessonNext.onclick = () => {
   if (selectedLesson === "") {
     alert("Please select a lesson");
@@ -183,14 +135,9 @@ lessonNext.onclick = () => {
   const lessonBackBtn = document.getElementById("lessonBack");
 
 lessonBackBtn.onclick = () => {
-  showScreen("postal"); // back to postal code screen
+  showScreen("postal"); 
 };
-
-
-  // Show the calendar / instructorDate screen
   showScreen("instructorDate");
-
-  // Calendar icon click
   const calendarBtn = document.getElementById("calendarBtn");
   const calendarOverlay = document.getElementById("calendarOverlay");
   const calendarDates = document.getElementById("calendarDates");
@@ -242,19 +189,11 @@ lessonBackBtn.onclick = () => {
       calendarDates.appendChild(span);
     }
   }
-
-  // Back button on calendar screen
   const dateBack = document.getElementById("dateBack");
   dateBack.onclick = () => {
-    showScreen("lesson"); // go back to lesson selection
+    showScreen("lesson"); 
   };
 };
-
-
-
-/***********************
-  INSTRUCTOR SIGNUP
-************************/
 const instructorScreen = document.getElementById("instructorSignup");
 const signupBtn = instructorScreen.querySelector(".signup-btn");
 const fields = instructorScreen.querySelectorAll("input");
@@ -281,21 +220,11 @@ signupBtn.onclick = () => {
   showScreen("congrats");
   startConfetti();
 };
-
-/***********************
-  CONGRATS
-************************/
 congratsNext.onclick = () => showScreen("login");
 
-/***********************
-  FORGOT
-************************/
 forgotLink.onclick = () => showScreen("forgot");
 forgotBack.onclick = () => showScreen("login");
 
-/***********************
-  CONFETTI
-************************/
 function startConfetti() {
   const confetti = document.querySelector(".confetti");
   confetti.innerHTML = "";
@@ -311,18 +240,12 @@ function startConfetti() {
   }
 }
 
-/***********************
-  SCREEN SWITCH
-************************/
 function showScreen(id) {
   document.querySelectorAll(".screen")
     .forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
 
-/***********************
-  FORGOT PASSWORD RESET
-************************/
 const resetBtn = document.getElementById("resetBtn");
 const forgotEmail = document.getElementById("forgotEmail");
 const forgotError = document.getElementById("forgotError");
@@ -340,12 +263,9 @@ resetBtn.onclick = () => {
     forgotError.style.display = "block";
     return;
   }
-
-  // ✅ success case
   forgotError.style.display = "none";
   alert("Reset password link has been sent to your email");
 
-  // back to login after reset
   showScreen("login");
 }
 const resetSuccess = document.getElementById("resetSuccess");
@@ -366,7 +286,6 @@ resetBtn.onclick = () => {
     return;
   }
 
-  // ✅ success
   forgotError.style.display = "none";
   resetSuccess.style.display = "block";
 
