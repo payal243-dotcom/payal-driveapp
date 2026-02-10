@@ -1,293 +1,378 @@
+/***********************
+  BASIC SCREENS
+************************/
 const splash = document.getElementById("splash");
 const login = document.getElementById("login");
 const signup = document.getElementById("signup");
-const postal = document.getElementById("postal");
-const pupilSignup = document.getElementById("pupilSignup");
 const instructorSignup = document.getElementById("instructorSignup");
-const congratsScreen = document.getElementById("congrats");
+const congrats = document.getElementById("congrats");
+const dashboard = document.getElementById("dashboard");
+const forgot = document.getElementById("forgot");
+const postal = document.getElementById("postal");
 const lesson = document.getElementById("lesson");
-const instructorDate = document.getElementById("instructorDate");
-const dateBack = document.getElementById("dateBack");
-const dateNext = document.getElementById("dateNext");
-const lessonError = document.getElementById("lessonError");
-/*Buttons*/
+
+
+/***********************
+  STATIC LOGIN
+************************/
+const STATIC_EMAIL = "test@gmail.com";
+const STATIC_PASSWORD = "123456";
+
+/**********************
+  BUTTONS
+************************/
 const loginBtn = document.getElementById("loginBtn");
 const signupLink = document.getElementById("signupLink");
 const backLogin = document.getElementById("backLogin");
 const roleNext = document.getElementById("roleNext");
-const postalNext = document.getElementById("postalNext");
-const lessonNext = document.getElementById("lessonNext");
-const lessonBack = document.getElementById("lessonBack");
+const forgotLink = document.getElementById("forgotLink");
+const forgotBack = document.getElementById("forgotBack");
+const congratsNext = document.getElementById("congratsNext");
+const logoutBtn = document.getElementById("logoutBtn");
 
-const postalInput = document.getElementById("postalInput");
-const postalError = document.getElementById("postalError");
-
-let selectedRole = ""; 
-
+let selectedRole = "";
+/***********************
+  SCREEN SWITCH
+************************/
+function showScreen(id) {
+  document.querySelectorAll(".screen")
+    .forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+/***********************
+  SPLASH → LOGIN
+************************/
 setTimeout(() => {
   splash.classList.remove("active");
   login.classList.add("active");
 }, 2500);
 
-loginBtn.onclick = () => {
-  let valid = true;
-  
-  const email = document.getElementById("email");
-  const Password = document.getElementById("password");
-  const emailError = document.getElementById("emailError");
-  const passwordError = document.getElementById("passwordError");
-  const loading = document.getElementById("loading");
-  
-  // EMAIL CHECK
+/***********************
+  LOGIN
+************************/
+loginBtn.addEventListener("click", () => {
+
+  emailError.style.display = "none";
+  passwordError.style.display = "none";
+
   if (email.value.trim() === "") {
     emailError.style.display = "block";
-    email.classList.add("input-error");
-    valid = false;
-  } else {
-    emailError.style.display = "none";
-    email.classList.remove("input-error");
+    return;
   }
 
-  // PASSWORD CHECK
-  if (Password.value.trim() === "") {
+  if (password.value.trim() === "") {
     passwordError.style.display = "block";
-    Password.classList.add("input-error");
-    valid = false;
-  } else {
-    passwordError.style.display = "none";
-    Password.classList.remove("input-error");
+    return;
   }
 
-  if (!valid) return;
+  if (email.value === STATIC_EMAIL && password.value === STATIC_PASSWORD) {
 
-  loading.style.display = "flex";
+    loading.style.display = "flex";
 
-  setTimeout(() => loading.style.display = "none", 4000);
-};
+    setTimeout(() => {
+      loading.style.display = "none";
+      showScreen("dashboard");
+    }, 3000);
 
+  } else {
+    passwordError.innerText = "Invalid email or password";
+    passwordError.style.display = "block";
+  }
+});
 
-signupLink.addEventListener("click", () => {
-  login.classList.remove("active");
-  signup.classList.add("active");
+/***********************
+  LOGOUT
+************************/
+logoutBtn.addEventListener("click", () => {
+  email.value = "";
+  password.value = "";
+  showScreen("login");
 });
 
 
-backLogin.addEventListener("click", () => {
-  signup.classList.remove("active");
-  login.classList.add("active");
-});
 
-roleNext.onclick = () => {
-  signup.classList.remove("active");
 
-  if (selectedRole === "instructor") {
-    showScreen("instructorSignup"); 
-  } else {
-    postal.classList.add("active"); 
-  }
-};
+/***********************
+  SIGNUP
+************************/
+signupLink.onclick = () => showScreen("signup");
+backLogin.onclick = () => showScreen("login");
 
 function selectRole(card) {
   document.querySelectorAll(".role-card").forEach(c =>
     c.classList.remove("active")
   );
   card.classList.add("active");
-
-
-  selectedRole = card.getAttribute("data-role");
-  console.log("Selected role:", selectedRole); 
+  selectedRole = card.dataset.role;
 }
 
+roleNext.onclick = () => {
+
+  // ❌ agar role hi select nahi kiya
+  if (selectedRole === "") {
+    alert("Please select a role");
+    return;
+  }
+
+  // hide signup screen
+  signup.classList.remove("active");
+
+  // ✅ PUPIL FLOW
+  if (selectedRole === "pupil") {
+    showScreen("postal");   // ya jo tumhari first pupil screen hai
+  }
+
+  // ✅ INSTRUCTOR FLOW
+  if (selectedRole === "instructor") {
+    showScreen("instructorSignup");
+  }
+};
+/***********************
+  POSTAL CODE (PUPIL FLOW)
+************************/
+const postalNext = document.getElementById("postalNext");
+const postalInput = document.getElementById("postalInput");
+const postalError = document.getElementById("postalError");
 
 postalNext.onclick = () => {
-  if (postalInput.value === "") {
-    postalError.style.display = "block";
-  } else {
-    postalError.style.display = "none";
-    postal.classList.remove("active");
-    showScreen("lesson");
-  }
-};
-lessonBack.onclick = () => {
-  showScreen("postal");
-};
 
-lessonNext.onclick = () => {
-  showScreen("instructorDate");
-};
-function selectLesson(card) {
-  document.querySelectorAll(".lesson-card").forEach(c =>
-    c.classList.remove("active")
-  );
-  card.classList.add("active");
-  lessonSelected = true;
-  lessonError.style.display = "none";
-}
-dateBack.onclick = () => {
+  if (postalInput.value.trim() === "") {
+    postalError.style.display = "block";
+    return;
+  }
+
+  postalError.style.display = "none";
+
+  // ✅ go to lesson screen
   showScreen("lesson");
 };
-const calendarOverlay = document.getElementById("calendarOverlay"); 
-const calendarDates = document.getElementById("calendarDates"); 
-const monthYear = document.getElementById("monthYear"); 
-const selectedDate = document.getElementById("selectedDate"); 
-const calendarBtn = document.getElementById("calendarBtn");
- let currentDate = new Date();
-  
-calendarBtn.onclick = () => { 
-  calendarOverlay.style.display = "flex";
-   renderCalendar(); }; 
-   
-   calendarOverlay.onclick = (e) => {
-     if(e.target === calendarOverlay){ 
-      calendarOverlay.style.display = "none"; } 
-    };
-    
-     document.getElementById("nextMonth").onclick = () => {
-      currentDate.setMonth(currentDate.getMonth() + 1); 
-      renderCalendar(); }; 
-      document.getElementById("prevMonth").onclick = () => { 
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar();
-      }; 
-      function renderCalendar(){ 
-        calendarDates.innerHTML = "";
-        const year = currentDate.getFullYear(); 
-        const month = currentDate.getMonth(); 
-         monthYear.innerText = currentDate.toLocaleString("en-US", {
-          month: "long", year: "numeric"
-        }); 
-        const firstDay = new Date(year, month, 1).getDay(); 
-        const daysInMonth = new Date(year, month + 1, 0).getDate(); 
-        for(let i=0;i<firstDay;i++)
-          { calendarDates.innerHTML += "<span></span>"; } 
-        for(let day=1; day<=daysInMonth; day++)
-          { 
-            const span = document.createElement("span");
-            span.innerText = day;
-             span.onclick = () => 
-              { 
-                selectedDate.innerText = `${String(day).padStart(2,"0")} 
-                ${currentDate.toLocaleString("en-US",{month:"short"})} ${year}`;
-                calendarOverlay.style.display = "none"; 
-              };
-              calendarDates.appendChild(span); 
-            }
-          }
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  const screenToShow = document.getElementById(id);
-  if (screenToShow) {
-    screenToShow.classList.add("active");
-  } else {
-    console.log(`Error: Screen ${id} not found`);
+/***********************
+  LESSON SELECTION
+************************/
+const lessonCards = document.querySelectorAll(".lesson-card");
+const lessonNext = document.getElementById("lessonNext"); // your "Next" button on lesson screen
+let selectedLesson = "";
+
+// Initially disable Next button
+lessonNext.disabled = true;
+lessonNext.classList.remove("active");
+
+lessonCards.forEach(card => {
+  card.onclick = () => {
+    // Remove active class from all cards
+    lessonCards.forEach(c => c.classList.remove("active"));
+
+    // Mark clicked card as active
+    card.classList.add("active");
+
+    // Save selected lesson
+    selectedLesson = card.dataset.lesson;
+
+    // Enable Next button
+    lessonNext.disabled = false;
+    lessonNext.classList.add("active");
+  };
+});
+
+// Show instructor date screen after lesson selection
+lessonNext.onclick = () => {
+  if (selectedLesson === "") {
+    alert("Please select a lesson");
+    return;
   }
-}
-const instructorScreen = document.getElementById("instructorSignup"); 
-const signupBtn = instructorScreen.querySelector(".signup-btn"); 
-const fields = instructorScreen.querySelectorAll("input"); 
-const errors = instructorScreen.querySelectorAll(".error"); 
-const password = fields[4]; const confirmPassword = fields[5]; 
-const eyes = instructorScreen.querySelectorAll(".eye");
+  const lessonBackBtn = document.getElementById("lessonBack");
 
- fields.forEach((field, i) => {
-   field.addEventListener("input", () => { 
-    errors[i].style.display = "none";
-     checkSignup();
-     }); 
-    });
-      eyes.forEach((eye, i) => {
-         eye.onclick = () => { 
-          const input = i === 0 ? password : confirmPassword; 
-          input.type = input.type === "password" ? "text" : "password";
-         }; 
-        });
-         function checkSignup(){
-           let ok = true; 
-           fields.forEach(f => {
-             if(f.value.trim() === "") ok = false;
-             }); 
-             if(password.value !== confirmPassword.value){
-               ok = false; } if(ok){ 
-                signupBtn.classList.add("active"); 
-                signupBtn.classList.remove("disabled");
-                signupBtn.disabled = false;
-               }
-               else{ 
-                signupBtn.classList.remove("active");
-                 signupBtn.classList.add("disabled"); 
-                 signupBtn.disabled = true; 
-                } 
-              } 
-              signupBtn.onclick = () => { 
-                let ok = true; 
-                fields.forEach((f,i)=>{ 
-                  if(f.value.trim()===""){ 
-                    errors[i].style.display="block"; 
-                    ok=false;
-                   } 
-                  });
-                   if(password.value !== confirmPassword.value){ 
-                    errors[5].innerText="Passwords do not match"; 
-                    errors[5].style.display="block"; 
-                    ok=false;
-                   } 
-                   if(!ok) return; 
-                   showScreen("congrats"); 
-                   startConfetti();
-                   };
-                    function startConfetti(){ 
-                      const confetti = document.querySelector(".confetti"); 
-                      confetti.innerHTML = ""; 
-                      for(let i=0;i<80;i++){ 
-                        const s = document.createElement("span");
-                         s.style.left = Math.random()*100+"%";
-                          s.style.background = ["#ff758c","#6f42ff","#ffd54f","#4dd0e1"]
-                          [Math.floor(Math.random()*4)]; 
-                          s.style.animationDelay = Math.random()*3+"s"; 
-                          confetti.appendChild(s); 
-                        } 
-                      } 
-                      function showScreen(id){ 
-                        document.querySelectorAll(".screen").forEach(s => s.classList.remove("active") ); 
-                        document.getElementById(id).classList.add("active");
-                       } 
-                       const forgot = document.getElementById("forgot");
-                        const forgotLink = document.getElementById("forgotLink"); 
-                        const forgotBack = document.getElementById("forgotBack"); 
-                        const resetBtn = document.getElementById("resetBtn");
-                         const forgotEmail = document.getElementById("forgotEmail");
-                          const forgotError = document.getElementById("forgotError");
-                           
-                            forgotLink.onclick = () => {
-                               login.classList.remove("active");
-                                forgot.classList.add("active");
-                               }; 
-                               
-                               forgotBack.onclick = () => { 
-                                forgot.classList.remove("active");
-                                 login.classList.add("active");
-                                 }; 
-                                 /* RESET PASSWORD */ 
-                                 resetBtn.onclick = () => { 
-                                  forgotError.style.display = "none";
-                                   loading.style.display = "flex"; 
-                                   setTimeout(() => { 
-                                    loading.style.display = "none"; 
-                                    forgotError.style.display = "block";
-                                   },
-                                    3000); 
-                                  };
-
-const congratsNext = document.getElementById("congratsNext");
-congratsNext.onclick = () => {
-
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  const loginScreen = document.getElementById("login");
-  if (loginScreen) {
-    loginScreen.classList.add("active");
-  } else {
-    console.error("Login screen not found");
-  }
+lessonBackBtn.onclick = () => {
+  showScreen("postal"); // back to postal code screen
 };
 
+
+  // Show the calendar / instructorDate screen
+  showScreen("instructorDate");
+
+  // Calendar icon click
+  const calendarBtn = document.getElementById("calendarBtn");
+  const calendarOverlay = document.getElementById("calendarOverlay");
+  const calendarDates = document.getElementById("calendarDates");
+  const selectedDate = document.getElementById("selectedDate");
+  let currentDate = new Date();
+
+  calendarBtn.onclick = () => {
+    calendarOverlay.style.display = "flex";
+    renderCalendar();
+  };
+
+  calendarOverlay.onclick = (e) => {
+    if (e.target === calendarOverlay) {
+      calendarOverlay.style.display = "none";
+    }
+  };
+
+  document.getElementById("nextMonth").onclick = () => {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    renderCalendar();
+  };
+  document.getElementById("prevMonth").onclick = () => {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    renderCalendar();
+  };
+
+  function renderCalendar() {
+    calendarDates.innerHTML = "";
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    document.getElementById("monthYear").innerText = currentDate.toLocaleString("en-US", {
+      month: "long",
+      year: "numeric"
+    });
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDay; i++) {
+      calendarDates.innerHTML += "<span></span>";
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const span = document.createElement("span");
+      span.innerText = day;
+      span.onclick = () => {
+        selectedDate.innerText = `${String(day).padStart(2,"0")} ${currentDate.toLocaleString("en-US",{month:"short"})} ${year}`;
+        calendarOverlay.style.display = "none";
+      };
+      calendarDates.appendChild(span);
+    }
+  }
+
+  // Back button on calendar screen
+  const dateBack = document.getElementById("dateBack");
+  dateBack.onclick = () => {
+    showScreen("lesson"); // go back to lesson selection
+  };
+};
+
+
+
+/***********************
+  INSTRUCTOR SIGNUP
+************************/
+const instructorScreen = document.getElementById("instructorSignup");
+const signupBtn = instructorScreen.querySelector(".signup-btn");
+const fields = instructorScreen.querySelectorAll("input");
+const errors = instructorScreen.querySelectorAll(".error");
+
+fields.forEach((f, i) => {
+  f.addEventListener("input", () => {
+    errors[i].style.display = "none";
+    checkSignup();
+  });
+});
+
+function checkSignup() {
+  let ok = true;
+  fields.forEach(f => {
+    if (f.value.trim() === "") ok = false;
+  });
+
+  signupBtn.disabled = !ok;
+  signupBtn.classList.toggle("active", ok);
+}
+
+signupBtn.onclick = () => {
+  showScreen("congrats");
+  startConfetti();
+};
+
+/***********************
+  CONGRATS
+************************/
+congratsNext.onclick = () => showScreen("login");
+
+/***********************
+  FORGOT
+************************/
+forgotLink.onclick = () => showScreen("forgot");
+forgotBack.onclick = () => showScreen("login");
+
+/***********************
+  CONFETTI
+************************/
+function startConfetti() {
+  const confetti = document.querySelector(".confetti");
+  confetti.innerHTML = "";
+
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement("span");
+    s.style.left = Math.random() * 100 + "%";
+    s.style.background =
+      ["#ff758c", "#6f42ff", "#ffd54f", "#4dd0e1"]
+      [Math.floor(Math.random() * 4)];
+    s.style.animationDelay = Math.random() * 3 + "s";
+    confetti.appendChild(s);
+  }
+}
+
+/***********************
+  SCREEN SWITCH
+************************/
+function showScreen(id) {
+  document.querySelectorAll(".screen")
+    .forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+/***********************
+  FORGOT PASSWORD RESET
+************************/
+const resetBtn = document.getElementById("resetBtn");
+const forgotEmail = document.getElementById("forgotEmail");
+const forgotError = document.getElementById("forgotError");
+
+resetBtn.onclick = () => {
+
+  if (forgotEmail.value.trim() === "") {
+    forgotError.innerText = "Email is required";
+    forgotError.style.display = "block";
+    return;
+  }
+
+  if (!forgotEmail.value.includes("@")) {
+    forgotError.innerText = "Invalid email address";
+    forgotError.style.display = "block";
+    return;
+  }
+
+  // ✅ success case
+  forgotError.style.display = "none";
+  alert("Reset password link has been sent to your email");
+
+  // back to login after reset
+  showScreen("login");
+}
+const resetSuccess = document.getElementById("resetSuccess");
+
+resetBtn.onclick = () => {
+
+  if (forgotEmail.value.trim() === "") {
+    forgotError.innerText = "Email is required";
+    forgotError.style.display = "block";
+    resetSuccess.style.display = "none";
+    return;
+  }
+
+  if (!forgotEmail.value.includes("@")) {
+    forgotError.innerText = "Invalid email address";
+    forgotError.style.display = "block";
+    resetSuccess.style.display = "none";
+    return;
+  }
+
+  // ✅ success
+  forgotError.style.display = "none";
+  resetSuccess.style.display = "block";
+
+  setTimeout(() => {
+    showScreen("login");
+    resetSuccess.style.display = "none";
+  }, 2000);
+};
 
