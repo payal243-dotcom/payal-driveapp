@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>DriveThru App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style.css"> 
@@ -54,7 +53,25 @@
         <p>Logging in...</p>
       </div>
     </div>
-    <!-- FORGOT PASSWORD SCREEN -->
+      <!-- DASHBOARD -->
+  <div id="dashboard" class="screen">
+    <div class="dashboard-header">
+      
+      
+    </div>
+    <br>
+    <br>
+
+    <div class="dashboard-body">
+      <img src="assets1/car.png" class="dashboard-img">
+      <p>Welcome to DriveThru 🚗</p>
+      <p>Your account has successfully created</p>
+      <br>
+      <br>
+      <br>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </div>
 <div id="forgot" class="screen">
 
   <div class="postal-header">
@@ -81,6 +98,10 @@
 
     <button class="primary-btn" id="resetBtn">Reset password</button>
     <br>
+    <p id="resetSuccess" class="success-text">
+      Reset password link has been sent to your email
+    </p>
+
 
     <p class="back-login" id="forgotBack">← Back to log in</p>
 
@@ -233,6 +254,7 @@
 </div>
      </div>
 
+
 <!-- INSTRUCTOR SIGNUP SCREEN -->
 <div class="screen" id="instructorSignup">
   <div class="signup-header instructor-header">
@@ -298,14 +320,24 @@
 
     <h1>Congratulations 🎉</h1>
     <p>Your account has been created</p>
-    <button class="next-btn" id="congratsNext">continue</button> </div>
-<!-- CONFETTI --> 
+    <button class="next-btn" id="congratsNext">continue</button> 
+
  <div class="confetti">
-</div>
  </div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
 <script src="index.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
