@@ -16,7 +16,7 @@
     <!-- SPLASH -->
     <div id="splash" class="screen active">
       <div class="splash-content">
-        <img src="assets1/car logo.png" alt="Description">
+        <img src="assets1/car logo.png" alt="Description" class="splash-car">
         <h1>DriveThru</h1>
         <p>Learn to Drive, The Smart Way</p>
         <div class="dots"><span></span><span></span><span></span></div>
@@ -146,7 +146,7 @@
       </div>
 
       <div class="steps">
-        <span class="active">✓</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+        <span class="active">✓</span><span>2</span><span>3</span><span>4</span>
       </div>
 
       <div class="postal-form">
@@ -170,7 +170,7 @@
   <div class="steps">
     <span class="active">✓</span>
     <span class="active">✓</span>
-    <span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+    <span>3</span><span>4</span>
   </div>
 
   <div class="lesson-body">
@@ -200,6 +200,7 @@
 </div>
 
 
+
      <div id="instructorDate" class="screen">
      <div class="postal-header"> 
       <h2>Signup Now!</h2>
@@ -209,8 +210,7 @@
       <span class="active">✓</span>
       <span class="active">✓</span> 
       <span class="active">✓</span> 
-      <span>4</span><span>5</span><span>6</span><span>7</span> 
-    </div> 
+      <span>4</span></div>
     <h3>All Instructors</h3> 
 
  <div class="date-row"> 
@@ -220,7 +220,7 @@
   </div> 
 
  <div class="date-box">
-  <span id="selectedDate">02 Feb 2026</span> 
+  <span id="selectedDate">Select date</span> 
 </div>
 
  <div class="calendar-icon" id="calendarBtn">
@@ -242,12 +242,25 @@
   </div> 
 </div>
 </div>
-<div class="no-result"> 
+
+<!-- Error / success messages -->
+<div class="no-result" id="noResult" style="display:none;">
   <div class="triangle">
     <i class="fa-solid fa-exclamation"></i> 
   </div> 
-  <p>Sorry, No result found!</p> 
-</div> 
+  <p>This date is not available. Choose another date Thankyou!</p> 
+</div>
+
+<br>
+<br>
+<div class="found-result" id="foundResult" style="display:none;">
+  <div class="triangle success">
+    <i class="fa-solid fa-check"></i>
+  </div>
+  <p>Process Done!</p>
+</div>
+
+
 <div class="lesson-actions"> 
   <button class="back-btn" id="dateBack">Back</button>
   <button class="next-btn" id="dateNext">Next</button>
@@ -290,22 +303,22 @@
   <div class="form-group password">
     <label>Password</label>
     <input type="password" placeholder="Enter Password">
-    <span class="eye">👁</span>
+    
     <small class="error">Password is required</small>
   </div>
 
   <div class="form-group password">
     <label>Confirm Password</label>
     <input type="password" placeholder="Enter Confirm Password">
-    <span class="eye">👁</span>
+    
     <small class="error">Confirm password is required</small>
-  </div>
 
-<button class="signup-btn disabled" disabled>
+<button class="signup-btn" id="instructorSignupBtn">
     Sign Up
-  </button>
-
+</button>
+  </div>
 </div>
+
 
   <!-- CONGRATULATIONS SCREEN -->
 <div class="screen" id="congrats">

@@ -8,6 +8,13 @@ const forgot = document.getElementById("forgot");
 const postal = document.getElementById("postal");
 const lesson = document.getElementById("lesson");
 
+const selectedDateSpan = document.getElementById("selectedDate");
+const noResultDiv = document.getElementById("noResult");
+const foundResultDiv = document.getElementById("foundResult");
+const nextBtn = document.getElementById("dateNext");
+
+const noResultDates = [7, 6, 23, 19, 13];
+
 const STATIC_EMAIL = "test@gmail.com";
 const STATIC_PASSWORD = "123456";
 
@@ -21,6 +28,7 @@ const congratsNext = document.getElementById("congratsNext");
 const logoutBtn = document.getElementById("logoutBtn");
 
 let selectedRole = "";
+
 function showScreen(id) {
   document.querySelectorAll(".screen")
     .forEach(s => s.classList.remove("active"));
@@ -32,9 +40,7 @@ setTimeout(() => {
   login.classList.add("active");
 }, 2500);
 
-
 loginBtn.addEventListener("click", () => {
-
   emailError.style.display = "none";
   passwordError.style.display = "none";
 
@@ -49,24 +55,23 @@ loginBtn.addEventListener("click", () => {
   }
 
   if (email.value === STATIC_EMAIL && password.value === STATIC_PASSWORD) {
-
     loading.style.display = "flex";
-
     setTimeout(() => {
       loading.style.display = "none";
       showScreen("dashboard");
     }, 3000);
-
   } else {
     passwordError.innerText = "Invalid email or password";
     passwordError.style.display = "block";
   }
 });
+
 logoutBtn.addEventListener("click", () => {
   email.value = "";
   password.value = "";
   showScreen("login");
 });
+
 signupLink.onclick = () => showScreen("signup");
 backLogin.onclick = () => showScreen("login");
 
@@ -83,65 +88,69 @@ roleNext.onclick = () => {
     alert("Please select a role");
     return;
   }
-  signup.classList.remove("active");
 
   if (selectedRole === "pupil") {
-    showScreen("postal");  
+    showScreen("postal");
   }
 
   if (selectedRole === "instructor") {
     showScreen("instructorSignup");
   }
 };
+
 const postalNext = document.getElementById("postalNext");
 const postalInput = document.getElementById("postalInput");
 const postalError = document.getElementById("postalError");
 
 postalNext.onclick = () => {
-
   if (postalInput.value.trim() === "") {
     postalError.style.display = "block";
     return;
   }
-
   postalError.style.display = "none";
   showScreen("lesson");
 };
+
 const lessonCards = document.querySelectorAll(".lesson-card");
-const lessonNext = document.getElementById("lessonNext"); // your "Next" button on lesson screen
+const lessonNext = document.getElementById("lessonNext");
+
 let selectedLesson = "";
 
 lessonNext.disabled = true;
 lessonNext.classList.remove("active");
 
+
 lessonCards.forEach(card => {
   card.onclick = () => {
-    
     lessonCards.forEach(c => c.classList.remove("active"));
-
     card.classList.add("active");
-
-  
     selectedLesson = card.dataset.lesson;
     lessonNext.disabled = false;
     lessonNext.classList.add("active");
   };
 });
+
 lessonNext.onclick = () => {
   if (selectedLesson === "") {
     alert("Please select a lesson");
     return;
   }
-  const lessonBackBtn = document.getElementById("lessonBack");
-
-lessonBackBtn.onclick = () => {
+    const lessonBackBtn = document.getElementById("lessonBack");
+    lessonBackBtn.onclick = () => {
   showScreen("postal"); 
 };
   showScreen("instructorDate");
+  initCalendar();   
+};
+
+function initCalendar() {
+
   const calendarBtn = document.getElementById("calendarBtn");
   const calendarOverlay = document.getElementById("calendarOverlay");
   const calendarDates = document.getElementById("calendarDates");
   const selectedDate = document.getElementById("selectedDate");
+  const dateBack = document.getElementById("dateBack");
+
   let currentDate = new Date();
 
   calendarBtn.onclick = () => {
@@ -159,6 +168,7 @@ lessonBackBtn.onclick = () => {
     currentDate.setMonth(currentDate.getMonth() + 1);
     renderCalendar();
   };
+
   document.getElementById("prevMonth").onclick = () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar();
@@ -168,10 +178,13 @@ lessonBackBtn.onclick = () => {
     calendarDates.innerHTML = "";
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
-    document.getElementById("monthYear").innerText = currentDate.toLocaleString("en-US", {
-      month: "long",
-      year: "numeric"
-    });
+
+    document.getElementById("monthYear").innerText =
+      currentDate.toLocaleString("en-US", {
+        month: "long",
+        year: "numeric"
+      });
+
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -182,44 +195,59 @@ lessonBackBtn.onclick = () => {
     for (let day = 1; day <= daysInMonth; day++) {
       const span = document.createElement("span");
       span.innerText = day;
+
       span.onclick = () => {
-        selectedDate.innerText = `${String(day).padStart(2,"0")} ${currentDate.toLocaleString("en-US",{month:"short"})} ${year}`;
+
+        selectedDate.innerText =
+          `${String(day).padStart(2, "0")} ${currentDate.toLocaleString("en-US", { month: "short" })} ${year}`;
+
         calendarOverlay.style.display = "none";
+
+        if (noResultDates.includes(day)) {
+          noResultDiv.style.display = "block";
+          foundResultDiv.style.display = "none";
+        } else {
+          noResultDiv.style.display = "none";
+          foundResultDiv.style.display = "block";
+        }
       };
+
       calendarDates.appendChild(span);
     }
   }
-  const dateBack = document.getElementById("dateBack");
-  dateBack.onclick = () => {
-    showScreen("lesson"); 
-  };
-};
-const instructorScreen = document.getElementById("instructorSignup");
-const signupBtn = instructorScreen.querySelector(".signup-btn");
-const fields = instructorScreen.querySelectorAll("input");
-const errors = instructorScreen.querySelectorAll(".error");
 
-fields.forEach((f, i) => {
-  f.addEventListener("input", () => {
-    errors[i].style.display = "none";
-    checkSignup();
-  });
-});
-
-function checkSignup() {
-  let ok = true;
-  fields.forEach(f => {
-    if (f.value.trim() === "") ok = false;
-  });
-
-  signupBtn.disabled = !ok;
-  signupBtn.classList.toggle("active", ok);
+  dateBack.onclick = () => showScreen("lesson");
 }
 
-signupBtn.onclick = () => {
-  showScreen("congrats");
-  startConfetti();
-};
+nextBtn.onclick = () => {
+  const dateText = selectedDateSpan.innerText;
+
+  if (!dateText || dateText === "Select date") {
+    alert("Please select a date first!");
+    return;
+  }
+
+  const selectedDay = parseInt(dateText.split(" ")[0]);
+
+  
+  if (noResultDates.includes(selectedDay)) {
+    
+    noResultDiv.style.display = "block";
+    foundResultDiv.style.display = "none";
+
+   
+    return;
+  } else {
+    
+    foundResultDiv.style.display = "block";
+    noResultDiv.style.display = "none";
+
+    showScreen("congrats");   
+    startConfetti();
+  }
+}
+
+
 congratsNext.onclick = () => showScreen("login");
 
 forgotLink.onclick = () => showScreen("forgot");
@@ -239,13 +267,39 @@ function startConfetti() {
     confetti.appendChild(s);
   }
 }
+const instructorSignupBtn = document.getElementById("instructorSignupBtn");
 
-function showScreen(id) {
-  document.querySelectorAll(".screen")
-    .forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+if (instructorSignupBtn) {
+  instructorSignupBtn.addEventListener("click", function () {
+    showScreen("congrats");
+  });
 }
 
+const signupInputs = document.querySelectorAll("#instructorSignup input");
+const signupBtn = document.getElementById("instructorSignupBtn");
+
+signupInputs.forEach(input => {
+  input.addEventListener("input", checkSignupFields);
+});
+
+function checkSignupFields() {
+  let allFilled = true;
+
+  signupInputs.forEach(input => {
+    if (input.value.trim() === "") {
+      allFilled = false;
+    }
+  });
+
+  if (allFilled) {
+    signupBtn.classList.add("active");
+    signupBtn.disabled = false;
+  } else {
+    signupBtn.classList.remove("active");
+    signupBtn.disabled = true;
+    
+  }
+}
 const resetBtn = document.getElementById("resetBtn");
 const forgotEmail = document.getElementById("forgotEmail");
 const forgotError = document.getElementById("forgotError");
@@ -296,5 +350,14 @@ resetBtn.onclick = () => {
 };
 
 
+const passwordFields = document.querySelectorAll(".form-group.password");
 
+passwordFields.forEach(group => {
+  const input = group.querySelector("input");
+  const eye = group.querySelector(".eye");
 
+  eye.addEventListener("click", () => {
+   
+    input.type = input.type === "password" ? "text" : "password";
+  });
+});
